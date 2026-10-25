@@ -21,6 +21,15 @@ common_header_export_path := qcom/display
 #Common libraries external to display HAL
 common_libs := liblog libutils libcutils libhardware
 
+#Common header libraries (Android 10: hardware/ and system/ headers are exposed
+#through Soong header libs, not global include paths). Applied per-module via
+#LOCAL_HEADER_LIBRARIES because CLEAR_VARS resets LOCAL_* vars.
+common_header_libraries := libhardware_headers libsystem_headers
+common_header_libraries += libcutils_headers libnativebase_headers libutils_headers
+common_header_libraries += gl_headers
+common_header_libraries += libui_headers
+common_header_libraries += libbase_headers
+
 #Common C flags
 common_flags := -DDEBUG_CALC_FPS -Wno-missing-field-initializers
 common_flags += -Wconversion -Wall -Werror -Wno-sign-conversion

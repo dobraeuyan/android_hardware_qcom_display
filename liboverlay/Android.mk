@@ -1,6 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 include $(LOCAL_PATH)/../common.mk
 include $(CLEAR_VARS)
+LOCAL_HEADER_LIBRARIES += $(common_header_libraries)
 
 LOCAL_MODULE                  := liboverlay
 LOCAL_MODULE_TAGS             := optional

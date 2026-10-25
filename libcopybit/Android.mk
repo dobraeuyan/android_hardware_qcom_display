@@ -16,11 +16,14 @@ LOCAL_PATH:= $(call my-dir)
 include $(LOCAL_PATH)/../common.mk
 
 include $(CLEAR_VARS)
+LOCAL_HEADER_LIBRARIES += $(common_header_libraries)
+LOCAL_USE_VNDK                := true
 LOCAL_COPY_HEADERS_TO         := $(common_header_export_path)
 LOCAL_COPY_HEADERS            := copybit.h copybit_priv.h c2d2.h
 include $(BUILD_COPY_HEADERS)
 
 include $(CLEAR_VARS)
+LOCAL_HEADER_LIBRARIES += $(common_header_libraries)
 LOCAL_MODULE                  := copybit.$(TARGET_BOARD_PLATFORM)
 LOCAL_MODULE_RELATIVE_PATH    := hw
 LOCAL_VENDOR_MODULE           := true
