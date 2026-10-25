@@ -1,6 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 include $(LOCAL_PATH)/../common.mk
 include $(CLEAR_VARS)
+LOCAL_HEADER_LIBRARIES += $(common_header_libraries)
 
 LOCAL_MODULE                  := hwcomposer.$(TARGET_BOARD_PLATFORM)
 LOCAL_MODULE_RELATIVE_PATH    := hw
@@ -9,6 +10,8 @@ LOCAL_MODULE_TAGS             := optional
 LOCAL_C_INCLUDES              := $(common_includes) $(kernel_includes) \
                                  $(TOP)/external/skia/include/core \
                                  $(TOP)/external/skia/include/images \
+                                 $(TOP)/external/skia/include/config \
+                                 $(TOP)/external/skia/include/config/android \
                                  frameworks/native/libs/arect/include
 
 ifeq ($(strip $(TARGET_USES_QCOM_DISPLAY_PP)),true)
@@ -20,13 +23,12 @@ endif
 LOCAL_SHARED_LIBRARIES        := $(common_libs) libEGL liboverlay \
                                  libhdmi libqdutils libhardware_legacy \
                                  libdl libmemalloc libqservice libsync \
-                                 libbinder libmedia libbfqio
+                                 libbinder libbfqio libui
 
 LOCAL_CFLAGS                  := $(common_flags) -DLOG_TAG=\"qdhwcomposer\" -Wno-absolute-value \
                                  -Wno-float-conversion -Wno-unused-parameter
 
 ifeq ($(TARGET_USES_QCOM_BSP),true)
-LOCAL_SHARED_LIBRARIES += libhwui
 ifeq ($(GET_FRAMEBUFFER_FORMAT_FROM_HWC),true)
     LOCAL_CFLAGS += -DGET_FRAMEBUFFER_FORMAT_FROM_HWC
 endif
@@ -45,6 +47,9 @@ LOCAL_SRC_FILES               := hwc.cpp          \
                                  hwc_fbupdate.cpp \
                                  hwc_mdpcomp.cpp  \
                                  hwc_copybit.cpp  \
+                                 ../libqdutils/cb_utils.cpp \
+                                 ../libqdutils/cb_swap_rect.cpp \
+                                 ../libqdutils/display_config.cpp \
                                  hwc_qclient.cpp  \
                                  hwc_dump_layers.cpp \
                                  hwc_ad.cpp \

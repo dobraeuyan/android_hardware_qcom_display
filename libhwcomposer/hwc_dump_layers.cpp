@@ -36,7 +36,10 @@
 #include <cutils/log.h>
 #include <sys/stat.h>
 #include <comptype.h>
-#ifdef QTI_BSP
+// SKIA_LAYER_DUMP: PNG layer-dump via libskia is debug-only and libskia is not
+// vendor_available (cc_library_static, no vendor variant); keep it disabled so the
+// vendor HWC links. RAW layer dumps below are unaffected.
+#if defined(QTI_BSP) && defined(SKIA_LAYER_DUMP)
 // Ignore W(float)conversion errors for external headers
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
@@ -315,7 +318,7 @@ void HwcDebug::dumpLayer(size_t layerIndex, hwc_layer_1_t hwLayers[])
     }
 
     getHalPixelFormatStr(hnd->format, pixFormatStr, sizeof(pixFormatStr));
-#ifdef QTI_BSP
+#if defined(QTI_BSP) && defined(SKIA_LAYER_DUMP)
     if (needDumpPng && hnd->base) {
         bool bResult = false;
         char dumpFilename[PATH_MAX];
